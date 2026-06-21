@@ -66,6 +66,7 @@ export interface WorkoutExercise {
   notes: string;
   tags: string[];
   imageUrl: string;
+  videoUrl: string;
 }
 
 export interface WorkoutDay {

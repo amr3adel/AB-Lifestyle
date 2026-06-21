@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="260" viewBox="0 0 420 260" role="img" aria-label="Brisk incline walk illustration">
+  <rect width="420" height="260" rx="18" fill="#edf7f5"/>
+  <path d="M82 208l258-70" stroke="#17212f" stroke-width="10" stroke-linecap="round" opacity=".14"/>
+  <circle cx="198" cy="70" r="20" fill="#17212f"/>
+  <path d="M184 104l-30 50 52 10 52 38" fill="none" stroke="#0b6b5d" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M188 106l54 24 42-26" fill="none" stroke="#d8753f" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M288 84h48m0 0l-14-12m14 12l-14 12" stroke="#345c8c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

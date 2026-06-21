@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="260" viewBox="0 0 420 260" role="img" aria-label="Romanian deadlift form illustration">
+  <rect width="420" height="260" rx="18" fill="#edf7f5"/>
+  <path d="M80 210h260" stroke="#17212f" stroke-width="10" stroke-linecap="round" opacity=".12"/>
+  <circle cx="206" cy="58" r="20" fill="#17212f"/>
+  <path d="M188 92l76 54" stroke="#0b6b5d" stroke-width="17" stroke-linecap="round"/>
+  <path d="M198 150l-28 52M246 150l22 52" stroke="#17212f" stroke-width="16" stroke-linecap="round"/>
+  <path d="M150 148h138" stroke="#d8753f" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="132" cy="148" r="16" fill="#345c8c"/>
+  <circle cx="306" cy="148" r="16" fill="#345c8c"/>
+  <path d="M322 86v68m0-68l-12 16m12-16l12 16" stroke="#17212f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/>
+</svg>

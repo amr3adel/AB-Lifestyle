@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="260" viewBox="0 0 420 260" role="img" aria-label="Goblet squat form illustration">
+  <rect width="420" height="260" rx="18" fill="#fff2ea"/>
+  <path d="M82 212h256" stroke="#17212f" stroke-width="10" stroke-linecap="round" opacity=".12"/>
+  <circle cx="210" cy="58" r="21" fill="#17212f"/>
+  <rect x="184" y="91" width="52" height="40" rx="10" fill="#345c8c"/>
+  <path d="M176 104h68" stroke="#d8753f" stroke-width="12" stroke-linecap="round"/>
+  <path d="M178 132l-42 46 42 28M242 132l42 46-42 28" fill="none" stroke="#17212f" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M146 178h128" stroke="#0b6b5d" stroke-width="12" stroke-linecap="round"/>
+  <path d="M320 86v86m0 0l-14-16m14 16l14-16" stroke="#0b6b5d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

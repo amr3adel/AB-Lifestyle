@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { PageShell } from "../components/PageShell";
+import { getExerciseImageUrl, getExerciseVideoUrl } from "../lib/exerciseMedia";
 import type {
   SessionRecord,
   SessionStatus,
@@ -198,13 +199,25 @@ export function WorkoutTrackingPage({
           return (
             <article className="tracking-card" key={`${activeDay.id}-${exercise.id}`}>
               <div className="tracking-card-header">
-                <img src={exercise.imageUrl} alt="" loading="lazy" />
+                <img
+                  src={getExerciseImageUrl(exercise.id, exercise.imageUrl)}
+                  alt=""
+                  loading="lazy"
+                />
                 <div>
                   <span>{exercise.tags.slice(0, 2).join(" / ")}</span>
                   <h2>{exercise.name}</h2>
                   <p>
                     Target: {exercise.sets} sets x {exercise.reps}, {exercise.intensity}
                   </p>
+                  <a
+                    className="video-link"
+                    href={exercise.videoUrl ?? getExerciseVideoUrl(exercise.name)}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Watch form
+                  </a>
                 </div>
               </div>
 

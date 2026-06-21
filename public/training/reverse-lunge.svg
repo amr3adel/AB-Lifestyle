@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="260" viewBox="0 0 420 260" role="img" aria-label="Reverse lunge form illustration">
+  <rect width="420" height="260" rx="18" fill="#f7f3e8"/>
+  <path d="M70 210h280" stroke="#17212f" stroke-width="10" stroke-linecap="round" opacity=".12"/>
+  <circle cx="206" cy="56" r="20" fill="#17212f"/>
+  <path d="M178 96h58" stroke="#d8753f" stroke-width="16" stroke-linecap="round"/>
+  <path d="M176 110l-22 54 52 36M236 112l62 28 28 58" fill="none" stroke="#17212f" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M148 164h76" stroke="#0b6b5d" stroke-width="12" stroke-linecap="round"/>
+  <path d="M300 78h-62m0 0l18-14m-18 14l18 14" stroke="#345c8c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

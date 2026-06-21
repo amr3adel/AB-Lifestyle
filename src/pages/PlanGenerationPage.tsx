@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { getExerciseImageUrl, getExerciseVideoUrl } from "../lib/exerciseMedia";
 import { getSelectedMealId } from "../lib/preferenceLearning";
 import { generateWeeklyPlan } from "../lib/planGeneration";
 import type {
@@ -135,10 +136,22 @@ export function PlanGenerationPage({
               <div className="exercise-table">
                 {day.exercises.map((exercise) => (
                   <div className="exercise-row" key={`${day.id}-${exercise.id}`}>
-                    <img src={exercise.imageUrl} alt="" loading="lazy" />
+                    <img
+                      src={getExerciseImageUrl(exercise.id, exercise.imageUrl)}
+                      alt=""
+                      loading="lazy"
+                    />
                     <div>
                       <strong>{exercise.name}</strong>
                       <span>{exercise.notes}</span>
+                      <a
+                        className="video-link"
+                        href={exercise.videoUrl ?? getExerciseVideoUrl(exercise.name)}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Watch form
+                      </a>
                     </div>
                     <dl>
                       <div>

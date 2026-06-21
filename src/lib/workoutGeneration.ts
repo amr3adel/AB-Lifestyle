@@ -6,6 +6,7 @@ import type {
   WorkoutDay,
   WorkoutExercise,
 } from "../types";
+import { getExerciseImageUrl, getExerciseVideoUrl } from "./exerciseMedia";
 
 interface ExerciseTemplate {
   id: string;
@@ -13,7 +14,6 @@ interface ExerciseTemplate {
   pattern: string;
   equipment: Array<Exclude<Equipment, "">>;
   tags: string[];
-  imageUrl: string;
   avoidWhen: string[];
   alternatives: Partial<Record<string, string>>;
 }
@@ -25,7 +25,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Squat",
     equipment: ["dumbbells", "home-gym", "full-gym"],
     tags: ["lower-body", "strength"],
-    imageUrl: "/training/lower.svg",
     avoidWhen: ["Knee pain"],
     alternatives: { "Knee pain": "Box squat to comfortable depth" },
   },
@@ -35,7 +34,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Squat",
     equipment: ["full-gym", "machines-only"],
     tags: ["lower-body", "machine"],
-    imageUrl: "/training/lower.svg",
     avoidWhen: ["Knee pain"],
     alternatives: { "Knee pain": "Glute bridge machine" },
   },
@@ -45,7 +43,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Single-leg",
     equipment: ["bodyweight", "dumbbells", "home-gym", "full-gym"],
     tags: ["lower-body", "balance"],
-    imageUrl: "/training/lower.svg",
     avoidWhen: ["Knee pain"],
     alternatives: { "Knee pain": "Supported step-up, low box" },
   },
@@ -55,7 +52,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Hinge",
     equipment: ["dumbbells", "home-gym", "full-gym"],
     tags: ["posterior-chain", "strength"],
-    imageUrl: "/training/lower.svg",
     avoidWhen: ["Lower back pain"],
     alternatives: { "Lower back pain": "Hip thrust" },
   },
@@ -65,7 +61,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Hinge",
     equipment: ["bodyweight", "dumbbells", "home-gym", "full-gym"],
     tags: ["posterior-chain", "back-friendly"],
-    imageUrl: "/training/lower.svg",
     avoidWhen: [],
     alternatives: {},
   },
@@ -75,7 +70,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Push",
     equipment: ["bodyweight", "dumbbells", "home-gym", "full-gym"],
     tags: ["upper-body", "bodyweight"],
-    imageUrl: "/training/upper.svg",
     avoidWhen: ["Wrist pain", "Shoulder pain"],
     alternatives: {
       "Wrist pain": "Incline push-up on handles",
@@ -88,7 +82,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Push",
     equipment: ["dumbbells", "home-gym", "full-gym"],
     tags: ["upper-body", "strength"],
-    imageUrl: "/training/upper.svg",
     avoidWhen: ["Shoulder pain"],
     alternatives: { "Shoulder pain": "Neutral-grip floor press" },
   },
@@ -98,7 +91,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Push",
     equipment: ["full-gym", "machines-only"],
     tags: ["upper-body", "machine"],
-    imageUrl: "/training/upper.svg",
     avoidWhen: ["Shoulder pain"],
     alternatives: { "Shoulder pain": "Cable press, pain-free range" },
   },
@@ -108,7 +100,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Pull",
     equipment: ["dumbbells", "home-gym", "full-gym"],
     tags: ["upper-body", "back"],
-    imageUrl: "/training/upper.svg",
     avoidWhen: ["Lower back pain"],
     alternatives: { "Lower back pain": "Chest-supported dumbbell row" },
   },
@@ -118,7 +109,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Pull",
     equipment: ["full-gym", "machines-only"],
     tags: ["upper-body", "back", "machine"],
-    imageUrl: "/training/upper.svg",
     avoidWhen: ["Shoulder pain"],
     alternatives: { "Shoulder pain": "Neutral-grip cable row" },
   },
@@ -128,7 +118,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Pull",
     equipment: ["bodyweight", "home-gym"],
     tags: ["upper-body", "home"],
-    imageUrl: "/training/upper.svg",
     avoidWhen: [],
     alternatives: {},
   },
@@ -138,7 +127,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Core",
     equipment: ["bodyweight", "dumbbells", "home-gym", "full-gym", "machines-only"],
     tags: ["core"],
-    imageUrl: "/training/core.svg",
     avoidWhen: ["Lower back pain", "Wrist pain"],
     alternatives: {
       "Lower back pain": "Dead bug",
@@ -151,7 +139,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Core",
     equipment: ["bodyweight", "dumbbells", "home-gym", "full-gym", "machines-only"],
     tags: ["core", "back-friendly"],
-    imageUrl: "/training/core.svg",
     avoidWhen: [],
     alternatives: {},
   },
@@ -161,7 +148,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Conditioning",
     equipment: ["full-gym", "machines-only", "home-gym"],
     tags: ["conditioning", "low-impact"],
-    imageUrl: "/training/conditioning.svg",
     avoidWhen: [],
     alternatives: {},
   },
@@ -171,7 +157,6 @@ const exercises: ExerciseTemplate[] = [
     pattern: "Conditioning",
     equipment: ["bodyweight", "dumbbells", "home-gym", "full-gym", "machines-only"],
     tags: ["conditioning", "low-impact"],
-    imageUrl: "/training/conditioning.svg",
     avoidWhen: [],
     alternatives: {},
   },
@@ -249,9 +234,10 @@ function buildExercise(
   profile: UserProfile,
 ): WorkoutExercise {
   const scheme = getSetScheme(profile.primaryGoal);
+  const exerciseName = resolveExercise(template, profile);
   return {
     id: template.id,
-    name: resolveExercise(template, profile),
+    name: exerciseName,
     sets: scheme.sets,
     reps:
       template.pattern === "Conditioning"
@@ -265,7 +251,8 @@ function buildExercise(
         ? "Keep the pace controlled enough to recover for the next session."
         : "Use a controlled tempo and stop any movement that causes sharp pain.",
     tags: [...template.tags, template.pattern.toLowerCase()],
-    imageUrl: template.imageUrl,
+    imageUrl: getExerciseImageUrl(template.id),
+    videoUrl: getExerciseVideoUrl(exerciseName),
   };
 }
 

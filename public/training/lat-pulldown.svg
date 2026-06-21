@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="260" viewBox="0 0 420 260" role="img" aria-label="Lat pulldown form illustration">
+  <rect width="420" height="260" rx="18" fill="#eef3fb"/>
+  <path d="M84 210h252" stroke="#17212f" stroke-width="10" stroke-linecap="round" opacity=".12"/>
+  <path d="M116 56h188" stroke="#345c8c" stroke-width="13" stroke-linecap="round"/>
+  <path d="M210 56v48" stroke="#17212f" stroke-width="8" stroke-linecap="round" opacity=".45"/>
+  <circle cx="210" cy="112" r="20" fill="#17212f"/>
+  <path d="M166 150c18-36 70-36 88 0" fill="none" stroke="#0b6b5d" stroke-width="18" stroke-linecap="round"/>
+  <path d="M166 148l-34-58M254 148l34-58" stroke="#d8753f" stroke-width="14" stroke-linecap="round"/>
+  <path d="M210 142v58" stroke="#17212f" stroke-width="16" stroke-linecap="round"/>
+</svg>

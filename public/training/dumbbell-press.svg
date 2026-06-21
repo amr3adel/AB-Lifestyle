@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="260" viewBox="0 0 420 260" role="img" aria-label="Dumbbell bench press form illustration">
+  <rect width="420" height="260" rx="18" fill="#edf7f5"/>
+  <path d="M82 210h256" stroke="#17212f" stroke-width="10" stroke-linecap="round" opacity=".12"/>
+  <rect x="118" y="150" width="184" height="22" rx="10" fill="#d8e1dc"/>
+  <circle cx="158" cy="118" r="20" fill="#17212f"/>
+  <path d="M178 126h92" stroke="#0b6b5d" stroke-width="18" stroke-linecap="round"/>
+  <path d="M190 118l-28-54M258 118l28-54" stroke="#17212f" stroke-width="14" stroke-linecap="round"/>
+  <path d="M136 58h52M260 58h52" stroke="#d8753f" stroke-width="12" stroke-linecap="round"/>
+  <path d="M224 44v70m0-70l-12 14m12-14l12 14" stroke="#345c8c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
