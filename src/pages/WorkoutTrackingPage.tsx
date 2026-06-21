@@ -1,6 +1,11 @@
 import { useMemo, useState } from "react";
 import { PageShell } from "../components/PageShell";
 import { getExerciseImageUrl, getExerciseVideoUrl } from "../lib/exerciseMedia";
+import {
+  estimateVolume,
+  getBestLog,
+  getProgressionHint,
+} from "../lib/planInsights";
 import type {
   SessionRecord,
   SessionStatus,
@@ -47,18 +52,6 @@ function formatDate(value: string) {
   }).format(new Date(value));
 }
 
-function estimateVolume(entry: WorkoutLogEntry) {
-  return Number(entry.weight || 0) * Number(entry.reps || 0) * Number(entry.sets || 0);
-}
-
-function getBestSet(entries: WorkoutLogEntry[]) {
-  return entries.reduce<WorkoutLogEntry | null>((best, entry) => {
-    if (!best) return entry;
-    if (estimateVolume(entry) > estimateVolume(best)) return entry;
-    return best;
-  }, null);
-}
-
 export function WorkoutTrackingPage({
   plan,
   workoutLogs,
@@ -69,6 +62,7 @@ export function WorkoutTrackingPage({
 }: WorkoutTrackingPageProps) {
   const [activeDayIndex, setActiveDayIndex] = useState(0);
   const [drafts, setDrafts] = useState<Record<string, DraftLog>>({});
+  const [notice, setNotice] = useState("");
 
   const activeDay = plan?.workoutDays[activeDayIndex];
 
@@ -113,6 +107,7 @@ export function WorkoutTrackingPage({
       ...current,
       [exercise.id]: defaultDraft,
     }));
+    setNotice(`${exercise.name} log saved.`);
   };
 
   const sessionKey = plan && activeDay ? `${plan.id}:${activeDay.id}` : "";
@@ -152,13 +147,19 @@ export function WorkoutTrackingPage({
           </button>
           <button
             className="secondary-button"
-            onClick={() => setSessionStatus(plan.id, activeDay.id, "skipped")}
+            onClick={() => {
+              setSessionStatus(plan.id, activeDay.id, "skipped");
+              setNotice(`${activeDay.dayLabel} marked skipped.`);
+            }}
           >
             Mark skipped
           </button>
           <button
             className="primary-button"
-            onClick={() => setSessionStatus(plan.id, activeDay.id, "complete")}
+            onClick={() => {
+              setSessionStatus(plan.id, activeDay.id, "complete");
+              setNotice(`${activeDay.dayLabel} marked complete.`);
+            }}
           >
             Mark complete
           </button>
@@ -177,6 +178,8 @@ export function WorkoutTrackingPage({
         </div>
       </div>
 
+      {notice ? <div className="inline-notice">{notice}</div> : null}
+
       <div className="day-tabs" role="tablist" aria-label="Training days">
         {plan.workoutDays.map((day, index) => (
           <button
@@ -192,9 +195,10 @@ export function WorkoutTrackingPage({
       <div className="tracking-list">
         {activeDay.exercises.map((exercise) => {
           const history = logsByExercise[exercise.id] ?? [];
-          const best = getBestSet(history);
+          const best = getBestLog(history);
           const draft = { ...defaultDraft, ...drafts[exercise.id] };
           const maxVolume = Math.max(...history.map(estimateVolume), 1);
+          const progressionHint = getProgressionHint(exercise, history);
 
           return (
             <article className="tracking-card" key={`${activeDay.id}-${exercise.id}`}>
@@ -210,6 +214,11 @@ export function WorkoutTrackingPage({
                   <p>
                     Target: {exercise.sets} sets x {exercise.reps}, {exercise.intensity}
                   </p>
+                  {best ? (
+                    <strong className="pr-badge">
+                      PR volume {estimateVolume(best).toLocaleString()}
+                    </strong>
+                  ) : null}
                   <a
                     className="video-link"
                     href={exercise.videoUrl ?? getExerciseVideoUrl(exercise.name)}
@@ -219,6 +228,11 @@ export function WorkoutTrackingPage({
                     Watch form
                   </a>
                 </div>
+              </div>
+
+              <div className="progression-hint">
+                <strong>Progression</strong>
+                <p>{progressionHint}</p>
               </div>
 
               <div className="log-form">
@@ -291,15 +305,17 @@ export function WorkoutTrackingPage({
                 </button>
               </div>
 
-              <div className="history-panel">
-                <div>
-                  <span className="field-label">History</span>
-                  <p>
-                    {best
-                      ? `Best volume: ${estimateVolume(best).toLocaleString()} kg-reps`
-                      : "No logs yet for this exercise."}
-                  </p>
-                </div>
+              <details className="history-panel">
+                <summary>
+                  <span>
+                    <strong>History</strong>
+                    <small>
+                      {best
+                        ? `Best volume: ${estimateVolume(best).toLocaleString()} kg-reps`
+                        : "No logs yet"}
+                    </small>
+                  </span>
+                </summary>
 
                 {history.length ? (
                   <>
@@ -338,7 +354,7 @@ export function WorkoutTrackingPage({
                     </div>
                   </>
                 ) : null}
-              </div>
+              </details>
             </article>
           );
         })}

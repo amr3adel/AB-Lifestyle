@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { getStepIndex, steps } from "../routes";
+import { getStepIndex, onboardingSteps } from "../routes";
 
 export function useRouteFlow() {
   const [path, setPath] = useState(() => window.location.pathname);
@@ -18,12 +18,13 @@ export function useRouteFlow() {
   }, []);
 
   const goNext = useCallback(() => {
-    const next = steps[Math.min(currentIndex + 1, steps.length - 1)];
+    const next =
+      onboardingSteps[Math.min(currentIndex + 1, onboardingSteps.length - 1)];
     navigate(next.path);
   }, [currentIndex, navigate]);
 
   const goBack = useCallback(() => {
-    const previous = steps[Math.max(currentIndex - 1, 0)];
+    const previous = onboardingSteps[Math.max(currentIndex - 1, 0)];
     navigate(previous.path);
   }, [currentIndex, navigate]);
 

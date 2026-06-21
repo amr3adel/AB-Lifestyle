@@ -2,6 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { getExerciseImageUrl, getExerciseVideoUrl } from "../lib/exerciseMedia";
 import { getSelectedMealId } from "../lib/preferenceLearning";
 import { generateWeeklyPlan } from "../lib/planGeneration";
+import {
+  buildGroceryList,
+  getMealTotals,
+  getSelectedMealsForDay,
+} from "../lib/planInsights";
 import type {
   MealOption,
   MealSlot,
@@ -68,6 +73,9 @@ export function PlanGenerationPage({
   };
 
   const selectedDietDay = activePlan.dietDays[activeDietDay] ?? activePlan.dietDays[0];
+  const selectedDayMeals = getSelectedMealsForDay(selectedDietDay, preferences);
+  const selectedDayTotals = getMealTotals(selectedDayMeals);
+  const groceryList = buildGroceryList(activePlan, preferences);
 
   return (
     <PageShell
@@ -100,6 +108,16 @@ export function PlanGenerationPage({
         <div>
           <span className="field-label">Last generated</span>
           <p>{formatDate(activePlan.generatedAt)}</p>
+        </div>
+        <div>
+          <span className="field-label">Selected day meals</span>
+          <p>
+            {selectedDayTotals.calories} kcal / {selectedDayTotals.proteinGrams}g protein
+          </p>
+        </div>
+        <div>
+          <span className="field-label">Grocery items</span>
+          <p>{groceryList.length || "Choose meals to build the list"}</p>
         </div>
       </div>
 
@@ -176,6 +194,38 @@ export function PlanGenerationPage({
         </div>
       ) : (
         <div className="meal-planner">
+          <div className="meal-insights-grid">
+            <article>
+              <span className="field-label">Selected meals</span>
+              {selectedDayMeals.length ? (
+                <div className="meal-summary-list">
+                  {selectedDayMeals.map((meal) => (
+                    <div key={meal.id}>
+                      <strong>{meal.title}</strong>
+                      <span>
+                        {meal.calories} kcal / {meal.proteinGrams}g protein
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p>Select one option per meal slot.</p>
+              )}
+            </article>
+            <article>
+              <span className="field-label">Grocery list</span>
+              {groceryList.length ? (
+                <div className="grocery-list">
+                  {groceryList.map((item) => (
+                    <span key={item}>{item}</span>
+                  ))}
+                </div>
+              ) : (
+                <p>Pick meals and the weekly list will appear here.</p>
+              )}
+            </article>
+          </div>
+
           <div className="day-tabs" role="tablist" aria-label="Diet days">
             {activePlan.dietDays.map((day, index) => (
               <button

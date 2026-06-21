@@ -1,18 +1,20 @@
 import type { CSSProperties } from "react";
-import { steps } from "../routes";
+import { onboardingSteps } from "../routes";
 
 interface ProgressNavProps {
   currentIndex: number;
 }
 
 export function ProgressNav({ currentIndex }: ProgressNavProps) {
-  const percent = Math.round(((currentIndex + 1) / steps.length) * 100);
+  const percent = Math.round(
+    ((currentIndex + 1) / onboardingSteps.length) * 100,
+  );
 
   return (
     <nav className="progress-nav" aria-label="Planner progress">
       <div className="progress-meta">
         <span>
-          Step {currentIndex + 1} of {steps.length}
+          Step {currentIndex + 1} of {onboardingSteps.length}
         </span>
         <strong>{percent}%</strong>
       </div>
@@ -21,9 +23,9 @@ export function ProgressNav({ currentIndex }: ProgressNavProps) {
       </div>
       <ol
         className="step-dots"
-        style={{ "--step-count": steps.length } as CSSProperties}
+        style={{ "--step-count": onboardingSteps.length } as CSSProperties}
       >
-        {steps.map((step, index) => (
+        {onboardingSteps.map((step, index) => (
           <li
             className={index <= currentIndex ? "is-active" : ""}
             key={step.id}
