@@ -43,7 +43,7 @@ export function DashboardPage({
     <section className="dashboard-page">
       <div className="dashboard-hero">
         <div>
-          <span className="eyebrow">Today</span>
+          <span className="eyebrow">Amr Boghdady</span>
           <h1>{profile.name ? `${profile.name}'s plan` : "Your plan"}</h1>
           <p>
             A clean snapshot of training, meals, and progress for the current week.

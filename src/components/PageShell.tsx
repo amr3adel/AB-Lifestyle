@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { BrandLogo } from "./BrandLogo";
 
 interface PageShellProps {
   eyebrow: string;
@@ -20,6 +21,7 @@ export function PageShell({
   return (
     <section className={`page-shell page-shell-${variant}`}>
       <div className="page-copy">
+        <BrandLogo />
         <span className="eyebrow">{eyebrow}</span>
         <h1 tabIndex={-1}>{title}</h1>
         <p>{intro}</p>

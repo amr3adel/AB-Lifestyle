@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { appNavItems } from "../routes";
+import { BrandLogo } from "./BrandLogo";
 
 interface AppShellProps {
   children: ReactNode;
@@ -8,20 +9,17 @@ interface AppShellProps {
 }
 
 const navIconById: Record<string, string> = {
-  dashboard: "●",
-  plan: "▦",
-  tracking: "↗",
-  profile: "◐",
+  dashboard: "T",
+  plan: "P",
+  tracking: "L",
+  profile: "M",
 };
 
 export function AppShell({ children, path, navigate }: AppShellProps) {
   return (
     <div className="product-shell">
       <aside className="side-nav" aria-label="Main navigation">
-        <div className="brand-lockup">
-          <strong>AB</strong>
-          <span>Lifestyle</span>
-        </div>
+        <BrandLogo />
         <div className="nav-stack">
           {appNavItems.map((item) => (
             <button
@@ -35,6 +33,10 @@ export function AppShell({ children, path, navigate }: AppShellProps) {
           ))}
         </div>
       </aside>
+      <header className="mobile-brandbar">
+        <BrandLogo compact />
+        <span>Amr Boghdady</span>
+      </header>
       <section className="product-content">{children}</section>
       <nav className="mobile-bottom-nav" aria-label="Main navigation">
         {appNavItems.map((item) => (
