@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="260" viewBox="0 0 420 260" role="img" aria-label="Core training">
+  <rect width="420" height="260" rx="18" fill="#edf7f5"/>
+  <path d="M74 194h272" stroke="#17212f" stroke-width="10" stroke-linecap="round" opacity=".12"/>
+  <circle cx="128" cy="128" r="20" fill="#17212f"/>
+  <path d="M152 134h116" stroke="#0b6b5d" stroke-width="20" stroke-linecap="round"/>
+  <path d="M270 134l50 42" stroke="#17212f" stroke-width="17" stroke-linecap="round"/>
+  <path d="M174 152l-42 34M230 152l-26 36" stroke="#d8753f" stroke-width="15" stroke-linecap="round"/>
+  <circle cx="326" cy="182" r="10" fill="#345c8c"/>
+</svg>

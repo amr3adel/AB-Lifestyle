@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="260" viewBox="0 0 420 260" role="img" aria-label="Recovery and mobility training">
+  <rect width="420" height="260" rx="18" fill="#f2f5f8"/>
+  <circle cx="304" cy="76" r="48" fill="#345c8c" opacity=".14"/>
+  <path d="M82 204h256" stroke="#17212f" stroke-width="10" stroke-linecap="round" opacity=".12"/>
+  <circle cx="182" cy="68" r="21" fill="#17212f"/>
+  <path d="M170 104l-54 50 68 16 96-54" fill="none" stroke="#0b6b5d" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M184 170l-44 30M222 152l68 48" stroke="#d8753f" stroke-width="15" stroke-linecap="round"/>
+</svg>

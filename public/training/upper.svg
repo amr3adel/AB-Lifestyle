@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="260" viewBox="0 0 420 260" role="img" aria-label="Upper body workout">
+  <rect width="420" height="260" rx="18" fill="#eef3fb"/>
+  <path d="M80 204h260" stroke="#17212f" stroke-width="10" stroke-linecap="round" opacity=".12"/>
+  <circle cx="210" cy="70" r="23" fill="#17212f"/>
+  <path d="M158 130c22-30 82-30 104 0" fill="none" stroke="#345c8c" stroke-width="18" stroke-linecap="round"/>
+  <path d="M158 132l-48 18M262 132l48 18" stroke="#0b6b5d" stroke-width="18" stroke-linecap="round"/>
+  <path d="M98 138h46M276 138h46" stroke="#d8753f" stroke-width="16" stroke-linecap="round"/>
+  <path d="M184 130v64M236 130v64" stroke="#17212f" stroke-width="16" stroke-linecap="round"/>
+</svg>
