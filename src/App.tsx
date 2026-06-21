@@ -29,6 +29,7 @@ function App() {
     sessionRecords,
     addWorkoutLog,
     setSessionStatus,
+    replaceState,
   } = usePlannerStore();
 
   const completeAndNext = () => {
@@ -84,6 +85,7 @@ function App() {
           preferences={preferences}
           updateProfile={updateProfile}
           savePlan={savePlan}
+          replaceState={replaceState}
         />
       ) : null}
     </div>

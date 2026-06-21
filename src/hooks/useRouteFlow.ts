@@ -17,6 +17,12 @@ export function useRouteFlow() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
+  useEffect(() => {
+    window.setTimeout(() => {
+      document.querySelector("h1")?.focus();
+    }, 80);
+  }, [path]);
+
   const goNext = useCallback(() => {
     const next =
       onboardingSteps[Math.min(currentIndex + 1, onboardingSteps.length - 1)];

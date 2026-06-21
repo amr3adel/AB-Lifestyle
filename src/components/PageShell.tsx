@@ -21,7 +21,7 @@ export function PageShell({
     <section className={`page-shell page-shell-${variant}`}>
       <div className="page-copy">
         <span className="eyebrow">{eyebrow}</span>
-        <h1>{title}</h1>
+        <h1 tabIndex={-1}>{title}</h1>
         <p>{intro}</p>
       </div>
       <div className="form-panel">{children}</div>

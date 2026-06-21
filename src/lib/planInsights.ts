@@ -9,6 +9,7 @@ import type {
   WorkoutExercise,
   WorkoutLogEntry,
 } from "../types";
+import { defaultPlannerState } from "../storage/localDatabase";
 
 const groceryByTag: Record<string, string[]> = {
   "high-protein": ["lean protein", "eggs or dairy alternative"],
@@ -146,6 +147,38 @@ export function exportPlannerData(state: unknown) {
   link.download = `ab-lifestyle-export-${new Date().toISOString().slice(0, 10)}.json`;
   link.click();
   URL.revokeObjectURL(url);
+}
+
+export function validateImportedPlannerState(value: unknown) {
+  if (!value || typeof value !== "object") {
+    throw new Error("The selected file is not a valid AB Lifestyle export.");
+  }
+
+  const candidate = value as Partial<typeof defaultPlannerState>;
+  if (!candidate.profile || typeof candidate.profile !== "object") {
+    throw new Error("The import is missing profile data.");
+  }
+
+  return {
+    ...defaultPlannerState,
+    ...candidate,
+    profile: {
+      ...defaultPlannerState.profile,
+      ...candidate.profile,
+      macroTarget: {
+        ...defaultPlannerState.profile.macroTarget,
+        ...candidate.profile.macroTarget,
+      },
+    },
+    preferences: {
+      ...defaultPlannerState.preferences,
+      ...candidate.preferences,
+      tagWeights: candidate.preferences?.tagWeights ?? {},
+      mealSelections: candidate.preferences?.mealSelections ?? [],
+    },
+    workoutLogs: candidate.workoutLogs ?? [],
+    sessionRecords: candidate.sessionRecords ?? {},
+  };
 }
 
 export function getSelectedMealCount(selections: MealSelection[]) {

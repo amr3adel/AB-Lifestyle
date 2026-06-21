@@ -31,9 +31,12 @@ export function DietPreferencesPage({
       return;
     }
 
-    updateProfile({
-      macroTarget: calculateMacroTarget(profile),
-    });
+    const nextTarget = calculateMacroTarget(profile);
+    if (nextTarget.calories > 0) {
+      updateProfile({
+        macroTarget: nextTarget,
+      });
+    }
   }, [
     profile.age,
     profile.heightCm,

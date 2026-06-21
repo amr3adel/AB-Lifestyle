@@ -26,6 +26,7 @@ export type Equipment =
   | "";
 
 export type SessionDuration = "20-30" | "30-45" | "45-60" | "60-plus" | "";
+export type UnitSystem = "metric" | "imperial";
 
 export interface MacroTarget {
   calories: number;
@@ -37,6 +38,7 @@ export interface MacroTarget {
 
 export interface UserProfile {
   name: string;
+  unitSystem: UnitSystem;
   age: number | "";
   weightKg: number | "";
   heightCm: number | "";
@@ -132,6 +134,14 @@ export interface WorkoutLogEntry {
   sets: number | "";
   rpe: number | "";
   notes: string;
+  setLogs?: WorkoutSetLog[];
+}
+
+export interface WorkoutSetLog {
+  setNumber: number;
+  weight: number | "";
+  reps: number | "";
+  completed: boolean;
 }
 
 export interface SessionRecord {

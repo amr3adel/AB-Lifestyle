@@ -3,6 +3,7 @@ import {
   ChoiceGrid,
   Field,
   RadioCard,
+  UnitToggle,
   toggleListValue,
 } from "../components/FormControls";
 import { PageShell } from "../components/PageShell";
@@ -12,6 +13,14 @@ import {
   workStyleOptions,
 } from "../data/options";
 import type { Sex, UserProfile, WorkStyle } from "../types";
+import {
+  displayHeight,
+  displayWeight,
+  heightLabel,
+  normalizeHeight,
+  normalizeWeight,
+  weightLabel,
+} from "../lib/units";
 
 interface PersonalDetailsPageProps {
   profile: UserProfile;
@@ -50,6 +59,10 @@ export function PersonalDetailsPage({
       }
     >
       <div className="field-row">
+        <UnitToggle
+          value={profile.unitSystem}
+          onChange={(unitSystem) => updateProfile({ unitSystem })}
+        />
         <Field label="Age">
           <input
             type="number"
@@ -61,23 +74,33 @@ export function PersonalDetailsPage({
             }
           />
         </Field>
-        <Field label="Weight" hint="kg">
+        <Field label="Weight" hint={weightLabel(profile.unitSystem)}>
           <input
             type="number"
             min="30"
-            value={profile.weightKg}
+            value={displayWeight(profile.weightKg, profile.unitSystem)}
             onChange={(event) =>
-              updateProfile({ weightKg: event.target.valueAsNumber || "" })
+              updateProfile({
+                weightKg: normalizeWeight(
+                  event.target.valueAsNumber || "",
+                  profile.unitSystem,
+                ),
+              })
             }
           />
         </Field>
-        <Field label="Height" hint="cm">
+        <Field label="Height" hint={heightLabel(profile.unitSystem)}>
           <input
             type="number"
             min="120"
-            value={profile.heightCm}
+            value={displayHeight(profile.heightCm, profile.unitSystem)}
             onChange={(event) =>
-              updateProfile({ heightCm: event.target.valueAsNumber || "" })
+              updateProfile({
+                heightCm: normalizeHeight(
+                  event.target.valueAsNumber || "",
+                  profile.unitSystem,
+                ),
+              })
             }
           />
         </Field>

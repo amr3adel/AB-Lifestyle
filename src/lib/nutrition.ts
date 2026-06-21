@@ -26,6 +26,12 @@ interface NutritionInput {
   primaryGoal: PrimaryGoal;
 }
 
+function estimateTargetWeightKg(heightCm: number, weightKg: number) {
+  const heightM = heightCm / 100;
+  const upperHealthyWeight = 25 * heightM * heightM;
+  return Math.min(weightKg, Math.max(50, upperHealthyWeight));
+}
+
 export function calculateMacroTarget(input: NutritionInput): MacroTarget {
   const age = Number(input.age);
   const weightKg = Number(input.weightKg);
@@ -55,14 +61,21 @@ export function calculateMacroTarget(input: NutritionInput): MacroTarget {
     Math.round((bmr * activityMultiplier + goalAdjustment) / 25) * 25,
   );
 
+  const targetWeightKg = estimateTargetWeightKg(heightCm, weightKg);
   const proteinPerKg =
     input.primaryGoal === "muscle-gain" || input.primaryGoal === "strength"
       ? 1.9
       : 1.7;
-  const proteinGrams = Math.round(weightKg * proteinPerKg);
-  const fatGrams = Math.round((calories * 0.28) / 9);
+  const proteinGrams = Math.min(220, Math.round(targetWeightKg * proteinPerKg));
+  const minimumCarbGrams = input.primaryGoal === "fat-loss" ? 35 : 60;
+  const maximumFatCalories = calories - proteinGrams * 4 - minimumCarbGrams * 4;
+  const fatCalories = Math.max(
+    calories * 0.18,
+    Math.min(calories * 0.28, maximumFatCalories),
+  );
+  const fatGrams = Math.max(30, Math.round(fatCalories / 9));
   const carbCalories = calories - proteinGrams * 4 - fatGrams * 9;
-  const carbGrams = Math.max(60, Math.round(carbCalories / 4));
+  const carbGrams = Math.max(0, Math.round(carbCalories / 4));
 
   return {
     calories,

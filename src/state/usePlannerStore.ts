@@ -103,6 +103,10 @@ export function usePlannerStore() {
     [],
   );
 
+  const replaceState = useCallback((nextState: PlannerState) => {
+    setState(nextState);
+  }, []);
+
   return {
     state,
     profile: state.profile,
@@ -116,5 +120,6 @@ export function usePlannerStore() {
     selectMeal,
     addWorkoutLog,
     setSessionStatus,
+    replaceState,
   };
 }

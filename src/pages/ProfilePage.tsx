@@ -1,7 +1,18 @@
-import { Field } from "../components/FormControls";
+import { Field, UnitToggle } from "../components/FormControls";
 import { equipmentOptions, goalOptions, workStyleOptions } from "../data/options";
 import { generateWeeklyPlan } from "../lib/planGeneration";
-import { exportPlannerData } from "../lib/planInsights";
+import {
+  exportPlannerData,
+  validateImportedPlannerState,
+} from "../lib/planInsights";
+import {
+  displayHeight,
+  displayWeight,
+  heightLabel,
+  normalizeHeight,
+  normalizeWeight,
+  weightLabel,
+} from "../lib/units";
 import type {
   Equipment,
   PreferenceModel,
@@ -18,6 +29,7 @@ interface ProfilePageProps {
   preferences: PreferenceModel;
   updateProfile: (patch: Partial<UserProfile>) => void;
   savePlan: (plan: WeeklyPlan) => void;
+  replaceState: (state: PlannerState) => void;
 }
 
 export function ProfilePage({
@@ -26,9 +38,24 @@ export function ProfilePage({
   preferences,
   updateProfile,
   savePlan,
+  replaceState,
 }: ProfilePageProps) {
+  const profileErrors = [
+    !profile.age ? "Please enter a valid age." : "",
+    !profile.weightKg ? "Please enter a valid weight." : "",
+    !profile.heightCm ? "Please enter a valid height." : "",
+  ].filter(Boolean);
+
   const regeneratePlan = () => {
+    if (profileErrors.length) return;
     savePlan(generateWeeklyPlan(profile, preferences));
+  };
+
+  const importData = async (file: File | undefined) => {
+    if (!file) return;
+    const text = await file.text();
+    const parsed = JSON.parse(text);
+    replaceState(validateImportedPlannerState(parsed));
   };
 
   return (
@@ -46,15 +73,35 @@ export function ProfilePage({
           <button className="secondary-button" onClick={() => exportPlannerData(state)}>
             Export data
           </button>
+          <label className="import-button">
+            Import data
+            <input
+              type="file"
+              accept="application/json"
+              onChange={(event) => importData(event.target.files?.[0])}
+            />
+          </label>
           <button className="primary-button" onClick={regeneratePlan}>
             Regenerate plan
           </button>
         </div>
       </div>
 
+      {profileErrors.length ? (
+        <div className="inline-warning">
+          {profileErrors.map((error) => (
+            <span key={error}>{error}</span>
+          ))}
+        </div>
+      ) : null}
+
       <div className="settings-grid">
         <article className="settings-card">
           <span className="field-label">Basics</span>
+          <UnitToggle
+            value={profile.unitSystem}
+            onChange={(unitSystem) => updateProfile({ unitSystem })}
+          />
           <div className="field-row">
             <Field label="Name">
               <input
@@ -71,21 +118,31 @@ export function ProfilePage({
                 }
               />
             </Field>
-            <Field label="Weight" hint="kg">
+            <Field label="Weight" hint={weightLabel(profile.unitSystem)}>
               <input
                 type="number"
-                value={profile.weightKg}
+                value={displayWeight(profile.weightKg, profile.unitSystem)}
                 onChange={(event) =>
-                  updateProfile({ weightKg: event.target.valueAsNumber || "" })
+                  updateProfile({
+                    weightKg: normalizeWeight(
+                      event.target.valueAsNumber || "",
+                      profile.unitSystem,
+                    ),
+                  })
                 }
               />
             </Field>
-            <Field label="Height" hint="cm">
+            <Field label="Height" hint={heightLabel(profile.unitSystem)}>
               <input
                 type="number"
-                value={profile.heightCm}
+                value={displayHeight(profile.heightCm, profile.unitSystem)}
                 onChange={(event) =>
-                  updateProfile({ heightCm: event.target.valueAsNumber || "" })
+                  updateProfile({
+                    heightCm: normalizeHeight(
+                      event.target.valueAsNumber || "",
+                      profile.unitSystem,
+                    ),
+                  })
                 }
               />
             </Field>

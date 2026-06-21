@@ -139,6 +139,29 @@ const mealLibrary: MealOption[] = [
 const dayLabels = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const slots: MealSlot[] = ["breakfast", "lunch", "dinner", "snack"];
 
+function createFallbackMeal(slot: MealSlot, profile: UserProfile, dayIndex: number): MealOption {
+  const preferenceText = profile.dietaryPreferences.join(", ") || "balanced";
+  const slotCalories: Record<MealSlot, number> = {
+    breakfast: 360,
+    lunch: 520,
+    dinner: 560,
+    snack: 240,
+  };
+
+  return {
+    id: `custom-safe-${slot}-${dayIndex}`,
+    title: `Custom ${preferenceText} ${slot}`,
+    slot,
+    calories: slotCalories[slot],
+    proteinGrams: slot === "snack" ? 16 : 28,
+    prepTime: "10-20 min",
+    tags: ["custom", "safe-fallback", "quick"],
+    avoids: [],
+    description:
+      "Build a simple safe plate from tolerated protein, tolerated carbs, vegetables, and olive oil or avocado.",
+  };
+}
+
 function normalizedProfileText(profile: UserProfile) {
   return [
     ...profile.allergies,
@@ -196,8 +219,14 @@ function optionsForSlot(
       return scoreB - scoreA;
     });
 
-  const fallback = mealLibrary.filter((meal) => meal.slot === slot);
-  const source = available.length >= 2 ? available : fallback;
+  if (!available.length) {
+    return [createFallbackMeal(slot, profile, dayIndex)];
+  }
+
+  const fallback = mealLibrary
+    .filter((meal) => meal.slot === slot)
+    .filter((meal) => !meal.avoids.some((item) => normalizedProfileText(profile).includes(item.toLowerCase())));
+  const source = available.length >= 2 ? available : [...available, ...fallback];
   const rotated = [...source.slice(dayIndex), ...source.slice(0, dayIndex)];
   return rotated.slice(0, 3);
 }

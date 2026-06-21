@@ -89,3 +89,29 @@ export function toggleListValue(
 
   return values.filter((item) => item !== value);
 }
+
+interface UnitToggleProps {
+  value: "metric" | "imperial";
+  onChange: (value: "metric" | "imperial") => void;
+}
+
+export function UnitToggle({ value, onChange }: UnitToggleProps) {
+  return (
+    <div className="unit-toggle" role="radiogroup" aria-label="Unit system">
+      <button
+        className={value === "metric" ? "is-active" : ""}
+        type="button"
+        onClick={() => onChange("metric")}
+      >
+        Metric
+      </button>
+      <button
+        className={value === "imperial" ? "is-active" : ""}
+        type="button"
+        onClick={() => onChange("imperial")}
+      >
+        Imperial
+      </button>
+    </div>
+  );
+}

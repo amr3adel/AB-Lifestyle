@@ -4,6 +4,7 @@ const STORAGE_KEY = "ab-lifestyle:planner-state";
 
 export const defaultProfile: UserProfile = {
   name: "",
+  unitSystem: "metric",
   age: "",
   weightKg: "",
   heightCm: "",
@@ -80,4 +81,8 @@ export function loadPlannerState(): PlannerState {
 
 export function savePlannerState(state: PlannerState) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+export function replacePlannerState(state: PlannerState) {
+  savePlannerState(state);
 }
